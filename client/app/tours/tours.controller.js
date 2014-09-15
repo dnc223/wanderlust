@@ -43,8 +43,20 @@ angular.module('wanderlustApp')
     }
   })
 
+  .factory('instagram', function($http){
+    return {
+      fetch: function(callback, tag) {
+        var endPoint = "https://api.instagram.com/v1/tags/" + tag + "/media/recent?" +
+                       "client_id=435022a8bf534bf3a562a6e6194fe89b&callback=JSON_CALLBACK";
+        $http.jsonp(endPoint).success(function(response) {
+          callback(response.data);
+        });
+      }
+    };
+  })
+
   .controller('ToursCtrl', function ($scope, $location, $http, httpGET, toursFactory) {
-    
+
     httpGET.getData(function(data){
       $scope.tours = data;
       toursFactory.tours = data;
